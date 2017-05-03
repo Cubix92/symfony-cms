@@ -1,0 +1,7 @@
+app:
+    resource: "@CmsBundle/Controller/"
+    type:     annotation
+cms:
+    resource: '@CmsBundle/Controller/Admin'
+    type:     annotation
+    prefix:   /

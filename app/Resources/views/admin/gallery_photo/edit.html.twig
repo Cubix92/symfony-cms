@@ -1,0 +1,31 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block page_header %}Edycja zdjęcia{% endblock %}
+
+{% block breadcrumb %}
+    <li>
+        <i class="fa fa-list"></i>  <a href="{{ path('gallery_index') }}">Lista galerii</a>
+    </li>
+    <li>
+        <i class="fa fa-picture-o"></i>  <a href="{{ path('photo_index', {'gallery_id': gallery.id}) }}">Lista zdjęć</a>
+    </li>
+    <li class="active">
+        <i class="fa fa-edit"></i> Edycja zdjęcia
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="box">
+        <div class="box-body">
+            {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-lg-offset-2 col-lg-10 margin-bottom">
+                        <img class="img-thumbnail" src="{{ photo.path }}/regular~{{  photo.filename }}">
+                    </div>
+                </div>
+            {{ form_widget(form) }}
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

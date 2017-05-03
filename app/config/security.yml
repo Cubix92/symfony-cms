@@ -1,0 +1,58 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+            cost: 12
+        CmsBundle\Entity\Admin:
+            algorithm: bcrypt
+            cost: 12
+
+    providers:
+        in_memory:
+            memory:
+                users:
+                    test@o2.pl:
+                        password: $2a$12$N7AwXC6KFcA4S4DcO2mcmuNZlguclOfl8ylMyvKf0NvYbJOCck9Iq
+                        roles: 'ROLE_ADMIN'
+        admin:
+            entity: { class: CmsBundle:Admin, property: email }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        admin_secured_area:
+            pattern:   ^/admin
+            anonymous: true
+            provider: admin
+            form_login:
+                login_path: admin_login
+                check_path: admin_login
+                default_target_path: /admin
+            logout:
+                path: admin_logout
+                target: homepage
+            remember_me:
+                secret: '%secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+                domain: ~
+        user_secured_area:
+            pattern:   ^/
+            anonymous: ~
+            provider: in_memory
+            form_login:
+                login_path: login
+                check_path: login
+                default_target_path: /
+            logout:
+                path: logout
+                target: homepage
+            remember_me:
+                secret: '%secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+                domain: ~
+    access_control:
+        - { path: ^/admin/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, role: ROLE_ADMIN }

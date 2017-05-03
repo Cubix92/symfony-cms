@@ -1,0 +1,32 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+  # twig services
+  app.twig_extension:
+      class: CmsBundle\Twig\CmsExtension
+      public: false
+      tags:
+          - { name: twig.extension }
+  front.twig_extension:
+      class: CmsBundle\Twig\FrontExtension
+      public: false
+      tags:
+          - { name: twig.extension }
+      arguments: ["@doctrine.orm.entity_manager"]
+
+  # utli servies
+  app.file_uploader:
+      class: CmsBundle\Utils\FileUploader
+      arguments: ['%kernel.root_dir%']
+
+  ga.analytics_service:
+      class: CmsBundle\Utils\GoogleService
+  # forms
+  app.form.menu_item_page:
+      class: CmsBundle\Form\MenuItemPageType
+      arguments: ["@doctrine.orm.entity_manager"]
+      tags:
+          - { name: form.type }

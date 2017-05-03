@@ -1,0 +1,24 @@
+{% macro sort(name, column, default = false, class = "sortable") %}
+    {% if app.request.query.get('sort') == column ~ ".asc" %}
+        {{ name }}<a class="{{ class }} active" href="{{ app.request.query.all|querystring({"sort": column ~ ".desc"}) }}">&#x25bc;</a>
+    {% elseif app.request.query.get('sort') == column ~ ".desc" %}
+        {{ name }}<a class="{{ class }} active" href="{{ app.request.query.all|querystring({"sort": column ~ ".asc"}) }}">&#x25b2;</a>
+    {% else %}
+        {{ name }}<a class="{{ class }}" href="{{ app.request.query.all|querystring({"sort": column ~ ".asc"}) }}">&#x25b2;</a>
+    {% endif %}
+{% endmacro %}
+
+{% macro search(items, params) %}
+    {% if(items or params is defined) %}
+        <form class="input-group input-group-sm" role="form" method="get" style="width: 150px;">
+            {% for name, value in app.request.query.all if name != "key" %}
+                <input type="hidden" name="{{ name }}" value="{{ value }}" >
+            {% endfor %}
+            <input type="text" class="form-control pull-right" placeholder="Szukaj" value="{{ params }}" name="key">
+
+            <div class="input-group-btn">
+                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+            </div>
+        </form>
+    {% endif %}
+{% endmacro %}

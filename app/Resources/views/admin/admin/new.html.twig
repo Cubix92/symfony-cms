@@ -1,0 +1,22 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block page_header %}Dodawanie użytkownika{% endblock %}
+
+{% block breadcrumb %}
+    <li>
+        <i class="fa fa-list"></i> <a href="{{ path('admin_index') }}">Lista użytkowników</a>
+    </li>
+    <li class="active">
+        <i class="fa fa-plus"></i> Dodawanie użytkownika
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="box">
+        <div class="box-body">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

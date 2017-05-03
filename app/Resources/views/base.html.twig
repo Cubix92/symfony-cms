@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+    <title>{% block meta_title %}{{ configuration.general_title }}{% endblock %}</title>
+
+    <meta charset="utf-8">
+
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    {% block stylesheets %}
+    {% endblock %}
+</head>
+<body>
+{% block tracking %}
+    {% if configuration.google_analytics is not empty %}
+    <script>
+        {{ configuration.google_analytics |raw }}
+    </script>
+    {% endif %}
+{% endblock %}
+<!-- Container -->
+<div id="container">
+    {% block header %}
+        <header class="clearfix active">
+            <nav class="navbar navbar-default" style="background-color: black;" role="navigation">
+                {#<div class="top-line">#}
+                    {#<div class="container">#}
+                        {#<div class="row">#}
+                            {#<div class="col-md-offset-5 col-md-6 pull-right text-right">#}
+                                {#<p>#}
+                                    {#<span><span class="icon icon-Phone2"></span>{{ configuration.general_phone }}</span>#}
+                                    {#<span><span class="icon icon-Mail"></span>{{ configuration.general_email }}</span>#}
+                                    {#<span><span class="icon icon-Timer"></span>{{ configuration.general_worktime }}</span>#}
+                                {#</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/"><img src="upload/settings/general_logo/{{ configuration.general_logo }}" alt="Logo strony"></a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        {{  generateMenu('primary-menu')|raw }}
+                    </div><!-- /.navbar-collapse -->
+                </div>
+            </nav>
+        </header>
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block footer %}
+        <footer>
+            <div class="up-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="footer-widget">
+                                <h2>{{ configuration.footer_left_box_title }}</h2>
+                                <p>{{ configuration.footer_left_box_content }}</p>
+                                {% include 'partials/socials.html.twig' %}
+
+                            </div>
+                        </div>
+                        {#<div class="col-md-4">#}
+                            {#<div class="footer-widget">#}
+                                {#<h2>Szybkie odnośniki</h2>#}
+                                {#{{  generateMenu('footer-menu', {'ul': 'link-list'})|raw }}#}
+                            {#</div>#}
+                        {#</div>#}
+                        <div class="col-md-6">
+                            <div class="footer-widget info-widget">
+                                <h2>{{ configuration.footer_right_box_title }}</h2>
+                                <p class="first-par">{{ configuration.footer_right_box_content }}</p>
+                                {% if configuration.general_phone is not null %}
+                                    <p><span>Tel: </span> {{ configuration.general_phone }}</p>
+                                {% endif %}
+                                {% if configuration.general_email is not null %}
+                                    <p><span>Email: </span> {{ configuration.general_email }}</p>
+                                {% endif %}
+                                {% if configuration.general_worktime is not null %}
+                                    <p><span>Czynne: </span> {{ configuration.general_worktime }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" copyright">
+                <div class="container ">
+                    <div class="pull-left">
+                        <p class="">
+                            &copy; Copyright {{ 'now'|date('Y') }}.
+                        </p>
+                    </div>
+                    <div class="pull-right">
+                        <p class="">
+                            Created By : Jakub Książek
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    {% endblock %}
+</div>
+<!-- End Container -->
+{% block javascripts %}
+
+{% endblock %}
+</body>
+</html>

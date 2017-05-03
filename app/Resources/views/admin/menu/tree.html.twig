@@ -1,0 +1,126 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/misc/macro/table.html.twig" as table %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/plugins/easy-tree/skin-lion/ui.easytree.css') }}"
+          media="screen">
+{% endblock %}
+
+{% block page_header %}
+    Struktura menu
+    <a class="btn btn-xs btn-success" data-toggle="modal" data-target="#linkModal" href="#">
+        <i class="fa fa-plus"></i> Dodaj pozycję
+    </a>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li>
+        <i class="fa fa-list"></i> <a href="{{ path('menu_index') }}">Lista dostępnych menu</a>
+    </li>
+    <li class="active">
+        <i class="fa fa-sitemap"></i> Struktura menu
+    </li>
+{% endblock %}
+
+{% block content %}
+        <div class="row">
+            {% if node.id is not empty %}
+                <div class="col-lg-4">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Struktura menu</h3>
+                            {% if editForm %}
+                                <div class="box-tools pull-right">
+                                    {% if app.request.query.get('node') %}
+                                        <a class="btn btn-box-tool" href="{{ path('menu_move', { 'id': app.request.query.get('node'), 'direction': 'down' }) }}">
+                                            <i class="fa fa-arrow-circle-down"></i>
+                                        </a>
+                                        <a class="btn btn-box-tool" href="{{ path('menu_move', { 'id': app.request.query.get('node'), 'direction': 'up' }) }}">
+
+                                            <i class="fa fa-arrow-circle-up"></i>
+                                        </a>
+                                        <a href="{{ path('menu_delete_item', { 'id': node.id }) }}" class="btn btn-box-tool">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="box-body">
+                            <div id="menu"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Edytuj wybraną pozycję</h3>
+                        </div>
+                        <div class="box-body">
+                            {{ form_start(editForm) }}
+                            {{ form_widget(editForm) }}
+                            {{ form_end(editForm) }}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-lg-12">
+                    <div class="callout callout-warning">
+                        <p>Nie dodałeś jeszcze żadnej pozycji do struktury menu.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+    <div class="modal fade" id="linkModal" tabindex="-1" role="dialog" aria-labelledby="linkModalLabel"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{ form_start(newForm) }}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="linkModalLabel">Dodawanie pozycji do menu</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_row(newForm.parent) }}
+                    {{ form_row(newForm.name) }}
+                    {{ form_row(newForm.type) }}
+                    {{ form_row(newForm.inBlank) }}
+                    {{ form_row(newForm.isVisible) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Zamknij</button>
+                    {{ form_widget(newForm.save) }}
+                </div>
+                {{ form_end(newForm) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('admin/plugins/easy-tree/jquery.easytree.min.js') }}"></script>
+    <script>
+        // funkcja generująca drzewko menu
+        $('#menu').easytree({
+            data: {{ tree |raw }},
+            allowActivate: false,
+            built: function(nodes) {
+                console.log(nodes);
+            }
+        });
+
+        // funkcja uruchamiająca popup po nieudanej walidacji
+        {% if newForm.vars.submitted and not newForm.vars.valid %}
+        $('#linkModal').modal('show');
+        {% endif %}
+    </script>
+{% endblock %}

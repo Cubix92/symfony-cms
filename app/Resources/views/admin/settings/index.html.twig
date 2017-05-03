@@ -1,0 +1,133 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom conf-tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Dane ogólne</a></li>
+                    <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Strona główna</a></li>
+                    <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Stopka</a></li>
+                    <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Media społecznościowe</a></li>
+                    <li class="pull-right">{{ form_widget(form.save) }}</li>
+                </ul>
+                {{ form_start(form) }}
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                        <br>
+                        {{ form_row(form.general_title) }}
+                        {{ form_row(form.general_phone) }}
+                        {{ form_row(form.general_email) }}
+                        {{ form_row(form.general_worktime) }}
+                        {{ form_row(form.general_address) }}
+                        {% if form.general_logo.vars.data %}
+                        <div class="col-sm-10 col-sm-offset-2 margin-bottom" id="{{ form.general_logo.vars.name }}">
+                            <img class="img-thumbnail" src="/upload/settings/general_logo/logo~{{ form.general_logo.vars.data }}" title="podgląd banera na stronie głównej">
+                            <br>
+                            <a href="javascript:void(0);" data-name="{{ form.general_logo.vars.name }}" class="btn btn-danger btn-xs btn-clean">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                        {{ form_row(form.general_logo) }}
+                        {{ form_row(form.google_analytics) }}
+                        {% if form.client_secrets.vars.data %}
+                            <div class="col-sm-10 col-sm-offset-2 margin-bottom" id="{{ form.client_secrets.vars.name }}">
+                                <a class="btn btn-success" href="/upload/settings/client_secrets/{{ form.client_secrets.vars.data }}" target="_blank">
+                                    Podgląd pliku <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        {{ form_row(form.client_secrets) }}
+                    </div>
+                    <div class="tab-pane" id="tab_2">
+                        <br>
+                        {% if form.main_banner_1.vars.data %}
+                            <div class="col-sm-10 col-sm-offset-2 margin-bottom" id="{{ form.main_banner_1.vars.name }}">
+                                <img class="img-thumbnail" src="/upload/settings/main_banner_1/minibanner~{{ form.main_banner_1.vars.data }}" title="podgląd banera na stronie głównej">
+                                <br>
+                                <a href="javascript:void(0);" data-name="{{ form.main_banner_1.vars.name }}" class="btn btn-danger btn-xs btn-clean">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        {{ form_row(form.main_banner_1) }}
+                        <br>
+                        {% if form.main_banner_2.vars.data %}
+                            <div class="col-sm-10 col-sm-offset-2 margin-bottom" id="{{ form.main_banner_2.vars.name }}">
+                                <img class="img-thumbnail" src="/upload/settings/main_banner_2/minibanner~{{ form.main_banner_2.vars.data }}" title="podgląd banera na stronie głównej">
+                                <br>
+                                <a href="javascript:void(0);" data-name="{{ form.main_banner_2.vars.name }}" class="btn btn-danger btn-xs btn-clean">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        {{ form_row(form.main_banner_2) }}
+                        <br>
+                        {% if form.main_banner_3.vars.data %}
+                            <div class="col-sm-10 col-sm-offset-2 margin-bottom" id="{{ form.main_banner_3.vars.name }}">
+                                <img class="img-thumbnail" src="/upload/settings/main_banner_3/minibanner~{{ form.main_banner_3.vars.data }}" title="podgląd banera na stronie głównej">
+                                <br>
+                                <a href="javascript:void(0);" data-name="{{ form.main_banner_3.vars.name }}" class="btn btn-danger btn-xs btn-clean">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        {{ form_row(form.main_banner_3) }}
+                        <br>
+                        {% if form.main_banner_4.vars.data %}
+                            <div class="col-sm-10 col-sm-offset-2 margin-bottom" id="{{ form.main_banner_4.vars.name }}">
+                                <img class="img-thumbnail" src="/upload/settings/main_banner_4/minibanner~{{ form.main_banner_4.vars.data }}" title="podgląd banera na stronie głównej">
+                                <br>
+                                <a href="javascript:void(0);" data-name="{{ form.main_banner_4.vars.name }}" class="btn btn-danger btn-xs btn-clean">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        {{ form_row(form.main_banner_4) }}
+                        <br>
+                        {% if form.main_banner_5.vars.data %}
+                            <div class="col-sm-10 col-sm-offset-2 margin-bottom" id="{{ form.main_banner_5.vars.name }}">
+                                <img class="img-thumbnail" src="/upload/settings/main_banner_5/minibanner~{{ form.main_banner_5.vars.data }}" title="podgląd banera na stronie głównej">
+                                <br>
+                                <a href="javascript:void(0);" data-name="{{ form.main_banner_5.vars.name }}" class="btn btn-danger btn-xs btn-clean">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        {{ form_row(form.main_banner_5) }}
+                    </div>
+                    <div class="tab-pane" id="tab_3">
+                        <br>
+                        {{ form_row(form.footer_left_box_title) }}
+                        {{ form_row(form.footer_left_box_content) }}
+                        {{ form_row(form.footer_right_box_title) }}
+                        {{ form_row(form.footer_right_box_content) }}
+                    </div>
+                    <div class="tab-pane" id="tab_4">
+                        <br>
+                        {{ form_row(form.social_twitter) }}
+                        {{ form_row(form.social_facebook) }}
+                        {{ form_row(form.social_linkedin) }}
+                        {{ form_row(form.social_google) }}
+                        {{ form_row(form.social_instagram) }}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('.btn-clean').click(function() {
+            $.post('/admin/cms/setting/clean', {name: $(this).attr('data-name')}, function(data) {
+                if(data.success) {
+                    $('#' + data.name ).fadeOut();
+                }
+            });
+        });
+    </script>
+{% endblock %}

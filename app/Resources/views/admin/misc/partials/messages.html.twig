@@ -1,0 +1,30 @@
+{% block messages %}
+    {% for flash_message in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger alert-dismissible">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            <h4><i class="icon fa fa-ban"></i>Błąd!</h4>
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+    {% for flash_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success alert-dismissible">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            <h4><i class="icon fa fa-check"></i> Sukces!</h4>
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+    {% for flash_message in app.session.flashBag.get('warning') %}
+        <div class="alert alert-warning alert-dismissible">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            <h4><i class="icon fa fa-warning"></i> Uwaga!</h4>
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+    {% for flash_message in app.session.flashBag.get('info') %}
+        <div class="alert alert-info alert-dismissible">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            <h4><i class="icon fa fa-info"></i> Informacja!</h4>
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends '@Twig/Exception/error.html.twig' %}
+
+{% block meta_title %}{% endblock %}
+
+{% block content %}
+    <section id="fof" class="clear">
+        <div class="hgroup clear">
+            <h1>404</h1>
+            <h2>Wystąpił błąd! <span>Nie znaleziono strony.</span></h2>
+        </div>
+        <hr>
+        <div class="error-box">
+            <p>Z jakiegoś powodu strona, której szukasz jest niedostępna lub wygasła.
+                Prosimy spróbować później lub skontaktować się z administratorem.
+            </p>
+            <p>
+                <a href="javascript:history.go(-1)">&laquo; Powrót do poprzedniej strony</a> / <a href="/">Strona główna &raquo;</a>
+            </p>
+        </div>
+    </section>
+{% endblock %}

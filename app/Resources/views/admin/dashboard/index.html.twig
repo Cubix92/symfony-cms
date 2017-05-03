@@ -1,0 +1,188 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block page_header %}Pulpit{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">
+        <i class="fa fa-dashboard"></i> Pulpit
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% if results.bounceRate is defined %}
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>{{ results.bounceRate |round(2) }}<sup style="font-size: 20px">%</sup></h3>
+                        <p>Współczynnik odrzuceń</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if results.avgSessionDuration is defined %}
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>{{ results.avgSessionDuration |round(2) }}</h3>
+
+                        <p>Średni czas trwania sesji</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if results.newUsers is defined %}
+            <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>{{ results.newUsers }}</h3>
+
+                    <p>Nowi użytkownicy</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if results.sessionsPerUser is defined %}
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>{{ results.sessionsPerUser |round(2) }}</h3>
+
+                        <p>Sesji na użytkownika</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% if results.usersAndSessions is defined %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BAR CHART -->
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Wykres aktywności</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="chart">
+                        <canvas id="barChart" style="height:230px"></canvas>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/plugins/chartjs/Chart.min.js') }}"></script>
+    <script>
+        {% raw %}
+        $(function () {
+
+            var labels = [];
+            var sessions = [];
+            var users = [];
+
+            $.post('/admin/bar', function(data) {
+                if(data) {
+                    for (var key in data.usersAndSessions) {
+                        labels.push(key);
+                        sessions.push(data.usersAndSessions[key]['sessions']);
+                        users.push(data.usersAndSessions[key]['users']);
+                    }
+
+                    var areaChartData = {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "Sesji",
+                                fillColor: "rgba(210, 214, 222, 1)",
+                                strokeColor: "rgba(210, 214, 222, 1)",
+                                pointColor: "rgba(210, 214, 222, 1)",
+                                pointStrokeColor: "#c1c7d1",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(220,220,220,1)",
+                                data: sessions
+                            },
+                            {
+                                label: "Użytkowników",
+                                fillColor: "rgba(60,141,188,0.9)",
+                                strokeColor: "rgba(60,141,188,0.8)",
+                                pointColor: "#3b8bba",
+                                pointStrokeColor: "rgba(60,141,188,1)",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(60,141,188,1)",
+                                data: users
+                            }
+                        ]
+                    };
+                    var barChartCanvas = $("#barChart").get(0).getContext("2d");
+                    var barChart = new Chart(barChartCanvas);
+                    var barChartData = areaChartData;
+
+                    barChartData.datasets[1].fillColor = "#00a65a";
+                    barChartData.datasets[1].strokeColor = "#00a65a";
+                    barChartData.datasets[1].pointColor = "#00a65a";
+
+                    var barChartOptions = {
+                        //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+                        scaleBeginAtZero: true,
+                        //Boolean - Whether grid lines are shown across the chart
+                        scaleShowGridLines: true,
+                        //String - Colour of the grid lines
+                        scaleGridLineColor: "rgba(0,0,0,.05)",
+                        //Number - Width of the grid lines
+                        scaleGridLineWidth: 1,
+                        //Boolean - Whether to show horizontal lines (except X axis)
+                        scaleShowHorizontalLines: true,
+                        //Boolean - Whether to show vertical lines (except Y axis)
+                        scaleShowVerticalLines: true,
+                        //Boolean - If there is a stroke on each bar
+                        barShowStroke: true,
+                        //Number - Pixel width of the bar stroke
+                        barStrokeWidth: 2,
+                        //Number - Spacing between each of the X value sets
+                        barValueSpacing: 5,
+                        //Number - Spacing between data sets within X values
+                        barDatasetSpacing: 1,
+                        //String - A legend template
+                        legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+                        //Boolean - whether to make the chart responsive
+                        responsive: true,
+                        maintainAspectRatio: true
+                    };
+
+                    barChartOptions.datasetFill = false;
+                    barChart.Bar(barChartData, barChartOptions);
+                }
+            });
+
+        });
+        {% endraw %}
+    </script>
+{% endblock %}

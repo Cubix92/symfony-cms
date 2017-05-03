@@ -1,0 +1,72 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/misc/macro/table.html.twig" as table %}
+
+{% block page_header %}
+    Aktualności
+    <a class="btn btn-xs btn-success" href="{{ path('news_new', { 'category_id': category.id }) }}">
+        <i class="fa fa-plus"></i> Dodaj aktualność
+    </a>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">
+        <i class="fa fa-list"></i> Lista aktualności
+    </li>
+{% endblock %}
+
+{% block content %}
+    {% if news or app.request.query.get('key') %}
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    Lista aktualności
+                </h3>
+                <div class="box-tools">
+                    {{ table.search(news, app.request.query.get('key')) }}
+                </div>
+            </div>
+            <div class="box-body responsive-table">
+                {% if news %}
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="width: 60px;">{{ table.sort("#", "id", true) }}</th>
+                            <th>{{ table.sort("Tytuł", "title") }}</th>
+                            <th style="width: 60px;">Edytuj</th>
+                            <th style="width: 60px;">Usuń</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in news %}
+                            <tr>
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.title }}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary" href="{{ path('news_edit', { 'category_id': category.id, 'id': item.id,  }) }}">
+                                        Edytuj
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-danger" data-toggle="confirmation"
+                                       data-content="Czy na pewno chcesz usunąć kategorię?"
+                                       href="{{ path('news_delete', { 'category_id': category.id, 'id': item.id }) }}">
+                                        Usuń
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="callout callout-warning">
+                        <p>Nie znaleziono wyników wyszukiwania.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="callout callout-info">
+            <p>Nie dodałeś jeszcze żadnej aktualności.</p>
+        </div>
+    {% endif %}
+{% endblock %}

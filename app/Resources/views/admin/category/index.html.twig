@@ -1,0 +1,78 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/misc/macro/table.html.twig" as table %}
+
+{% block page_header %}
+    Kategorie
+    <a class="btn btn-xs btn-success" href="{{ path('category_new') }}">
+        <i class="fa fa-plus"></i> Dodaj kategorię
+    </a>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">
+        <i class="fa fa-list"></i> Lista kategorii
+    </li>
+{% endblock %}
+
+{% block content %}
+    {% if categories or app.request.query.get('key') %}
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    Lista kategorii
+                </h3>
+                <div class="box-tools">
+                    {{ table.search(categories, app.request.query.get('key')) }}
+                </div>
+            </div>
+            <div class="box-body responsive-table">
+                {% if categories %}
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="width: 60px;">{{ table.sort("#", "id", true) }}</th>
+                            <th>{{ table.sort("Nazwa", "name") }}</th>
+                            <th style="width: 60px;">Aktualności</th>
+                            <th style="width: 60px;">Edytuj</th>
+                            <th style="width: 60px;">Usuń</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for category in categories %}
+                            <tr>
+                                <td>{{ category.id }}</td>
+                                <td>{{ category.name }}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-success" href="{{ path('news_index', { 'category_id': category.id }) }}">
+                                        Aktualności
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary" href="{{ path('category_edit', { 'id': category.id }) }}">
+                                        Edytuj
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-danger" data-toggle="confirmation"
+                                       data-content="Czy na pewno chcesz usunąć kategorię?"
+                                       href="{{ path('category_delete', { 'id': category.id }) }}">
+                                        Usuń
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="callout callout-warning">
+                        <p>Nie znaleziono wyników wyszukiwania.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="callout callout-info">
+            <p>Nie dodałeś jeszcze żadnej kategorii.</p>
+        </div>
+    {% endif %}
+{% endblock %}

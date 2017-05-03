@@ -1,0 +1,52 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block page_header %}Pulpit{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">
+        <i class="fa fa-dashboard"></i> Pulpit
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Pomoc</h3>
+        </div>
+
+        <div class="box-body">
+            <h4>Struktura menu w panelu wygląda następująco:</h4>
+            <dl class="dl-horizontal">
+                <dt>Strony</dt>
+                <dd>W tym miejscu można dodawać nowe strony. Podczas dodawania stron można wybrać różne szablony oraz podpinać stworzone przez siebie galerie.</dd>
+                <dt>Galerie</dt>
+                <dd>W tym miejscu można dodawać galerie ze zdjęciami. Po dodaniu galerii pojawia się ona na liście wraz z opcją <button type="button" class="btn btn-success btn-xs">zdjęcia</button>. Klikając ten przycisk zostaniemy przeniesieni do zawartości danej galerii, gdzie będziemy mogli dodawać i edytować opisy do zdjęć.</dd>
+                <dt>Menu</dt>
+                <dd>Jest to miejsce w którym możemy zarządzać różnymi menu dostępnymi w naszej aplikacji. Tylko to co dodamy w tym miejscu będzie się wyświetlało na naszej stronie. Dodając nową zakładkę można wybrać czy ma być stronę, którą można stworzyć w zakładce "Strony" czy ma to być zwykły link prowadzący do dowolnego miejsca w sieci.</dd>
+                <dt>Konfiguracja</dt>
+                <dd>Ta zakładka pozwala zmienić ustawienia strony głównej,
+                    stopki oraz kilka ustawień ogólnych, m. in. podmienić logo, zmienić tytuł wyświetlanej strony oraz dodawać social media.</dd>
+            </dl>
+            <h4>Jak dodać stronę do menu</h4>
+            <ol>
+                <li>
+                    W pierwszej kolejności należy dodać nową stronę w zakładce STRONY.
+                </li>
+                <li>
+                    Następnie przechodzimy do zakładki MENU, aby naszą stronę dodać do jednego z dostępnych menu.
+                </li>
+                <li>
+                    Wybieramy interesujące nas menu i wybieramy opcję DODAJ POZYCJĘ.
+                </li>
+                <li>
+                    Wybieramy typ "strona" i załączamy tam dodaną przez nas stronę.
+                </li>
+            </ol>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

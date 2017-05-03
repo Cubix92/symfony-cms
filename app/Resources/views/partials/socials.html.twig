@@ -1,0 +1,22 @@
+<ul class="social-links social-links_mod-a list-inline">
+
+    {% if configuration.social_twitter is defined and configuration.social_twitter is not empty %}
+        <li><a target="_blank" href="{{ configuration.social_twitter }}"><i class="icons fa fa-twitter"></i></a></li>
+    {% endif %}
+
+    {% if configuration.social_facebook is defined and configuration.social_facebook is not empty %}
+        <li><a target="_blank" href="{{ configuration.social_facebook }}"><i class="icons fa fa-facebook"></i></a></li>
+    {% endif %}
+
+    {% if configuration.social_linkedin is defined and configuration.social_linkedin is not empty %}
+        <li><a target="_blank" href="{{ configuration.social_linkedin }}"><i class="icons fa fa-linkedin"></i></a></li>
+    {% endif %}
+
+    {% if configuration.social_google is defined and configuration.social_google is not empty %}
+        <li><a target="_blank" href="{{ configuration.social_google }}"><i class="icons fa fa-google-plus"></i></a></li>
+    {% endif %}
+
+    {% if configuration.social_instagram is defined and configuration.social_instagram is not empty %}
+        <li><a target="_blank" href="{{ configuration.social_instagram }}"><i class="icons fa fa-instagram"></i></a></li>
+    {% endif %}
+</ul>

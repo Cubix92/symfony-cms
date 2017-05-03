@@ -1,0 +1,88 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/misc/macro/table.html.twig" as table %}
+
+{% block page_header %}
+    Strony
+    <a class="btn btn-xs btn-success" href="{{ path('page_new') }}">
+        <i class="fa fa-plus"></i> Dodaj stronę
+    </a>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">
+        <i class="fa fa-list"></i> Lista stron
+    </li>
+{% endblock %}
+
+{% block content %}
+    {% if pages or app.request.query.get('key') %}
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    Lista stron
+                </h3>
+                <div class="box-tools">
+                    {{ table.search(pages, app.request.query.get('key')) }}
+                </div>
+            </div>
+            <div class="box-body responsive-table">
+                {% if pages %}
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="width: 60px;">{{ table.sort("#", "id", true) }}</th>
+                            <th>{{ table.sort("Tytuł", "title") }}</th>
+                            <th>{{ table.sort("Slug", "slug") }}</th>
+                            <th>{{ table.sort("Meta tytuł", "metaTitle") }}</th>
+                            <th>{{ table.sort("Meta opis", "metaDescription") }}</th>
+                            <th>{{ table.sort("Słowa kluczowe", "metaKeywords") }}</th>
+                            <th>{{ table.sort("Aktywność", "isActive") }}</th>
+                            <th style="width: 60px;">Edytuj</th>
+                            <th style="width: 60px;">Usuń</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for page in pages %}
+                            <tr>
+                                <td>{{ page.id }}</td>
+                                <td>{{ page.title }}</td>
+                                <td>{{ page.slug }}</td>
+                                <td>{{ page.metaTitle |default('-')}}</td>
+                                <td>{{ page.metaDescription |default('-')}}</td>
+                                <td>{{ page.metaKeywords |default('-')}}</td>
+                                <td>
+                                    {% if page.isActive %}
+                                        <span class="label label-success">TAK</span>
+                                    {% else %}
+                                        <span class="label label-danger">NIE</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary" href="{{ path('page_edit', { 'id': page.id }) }}">
+                                        Edytuj
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-danger" data-toggle="confirmation"
+                                       data-content="Czy na pewno chcesz usunąć stronę?"
+                                       href="{{ path('page_delete', { 'id': page.id }) }}">
+                                        Usuń
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <div class="callout callout-warning">
+                            <p>Nie znaleziono wyników wyszukiwania.</p>
+                        </div>
+                    {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="callout callout-info">
+            <p>Nie dodałeś jeszcze żadnej strony.</p>
+        </div>
+    {% endif %}
+{% endblock %}
